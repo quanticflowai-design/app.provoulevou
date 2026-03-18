@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧪 Área de Testes — Provou Levou</title>
+  <style>
+    :root {
+      --primary: #6B46C1;
+      --secondary: #4299E1;
+      --success: #48BB78;
+      --danger: #E53E3E;
+      --warning: #ED8936;
+      --dark: #2D3748;
+      --bg: #F8F9FA;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #6B46C1, #4299E1);
+      color: white;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 { font-size: 24px; font-weight: 800; }
+    header span { font-size: 14px; opacity: 0.85; }
+    .app-link {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: background 0.2s;
+    }
+    .app-link:hover { background: rgba(255,255,255,0.3); }
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1px solid #E2E8F0;
+    }
+    .card h2 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .card p { font-size: 13px; color: #718096; margin-bottom: 14px; line-height: 1.5; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #553C9A; transform: translateY(-1px); }
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { filter: brightness(1.1); }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-warning { background: var(--warning); color: white; }
+    .btn-secondary { background: var(--secondary); color: white; }
+    .btn-secondary:hover { filter: brightness(1.1); }
+    .btn-gray { background: #E2E8F0; color: var(--dark); }
+    .btn-gray:hover { background: #CBD5E0; }
+    .result-box {
+      background: #1a202c;
+      color: #68d391;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: monospace;
+      font-size: 12px;
+      margin-top: 12px;
+      max-height: 180px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      display: none;
+      border: 1px solid #2D3748;
+    }
+    .result-box.show { display: block; }
+    .result-box.error { color: #FC8181; }
+    .result-box.success { color: #68d391; }
+    .result-box.info { color: #63B3ED; }
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--bg);
+      border-radius: 8px;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+    .badge {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-ok { background: rgba(72,187,120,0.15); color: var(--success); }
+    .badge-error { background: rgba(229,62,62,0.15); color: var(--danger); }
+    .badge-warn { background: rgba(237,137,54,0.15); color: var(--warning); }
+    .badge-info { background: rgba(66,153,225,0.15); color: var(--secondary); }
+    .divider { border: none; border-top: 1px solid #E2E8F0; margin: 28px 0; }
+    .section-header { font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .size-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 8px; }
+    .size-cell {
+      background: var(--bg);
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 8px 4px;
+      text-align: center;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .size-cell:hover { border-color: var(--primary); background: rgba(107,70,193,0.05); }
+    .size-cell strong { display: block; font-size: 13px; color: var(--primary); }
+    input.test-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      margin-bottom: 8px;
+      transition: border 0.2s;
+    }
+    input.test-input:focus { border-color: var(--primary); }
+    .mobile-preview {
+      background: white;
+      width: 280px;
+      height: 500px;
+      border-radius: 24px;
+      border: 3px solid var(--dark);
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      margin: 0 auto;
+      position: relative;
+    }
+    .mobile-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      transform: scale(0.85);
+      transform-origin: top left;
+      width: calc(100% / 0.85);
+      height: calc(100% / 0.85);
+    }
+    #toast-tester {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 999;
+    }
+    .toast-msg {
+      background: var(--dark);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      animation: slideIn 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .links-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .link-btn {
+      background: var(--bg);
+      border: 1.5px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .link-btn:hover { background: rgba(107,70,193,0.08); border-color: var(--primary); }
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+      .container { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🧪 Área de Testes</h1>
+    <span>Provou Levou — Diagnósticos & Simulações</span>
+  </div>
+  <a href="/" class="app-link">← Abrir App</a>
+</header>
+
+<div class="container">
+
+  <!-- Nav links -->
+  <div class="card" style="margin-bottom: 24px;">
+    <h2>🔗 Navegação Rápida</h2>
+    <div class="links-grid">
+      <a href="/" class="link-btn">🏠 Home</a>
+      <a href="/login" class="link-btn">🔐 Login</a>
+      <a href="/provador" class="link-btn">👕 Provador</a>
+      <a href="/painel" class="link-btn">📊 Painel</a>
+      <a href="/plano" class="link-btn">👑 Plano</a>
+    </div>
+  </div>
+
+  <!-- Section: Telas -->
+  <div class="section-header">📱 Testes de Telas</div>
+  <div class="grid">
+
+    <!-- Test: Cadastro -->
+    <div class="card">
+      <h2>📝 Tela Cadastro</h2>
+      <p>Valida campos de nome, WhatsApp, altura e peso com regras de negócio.</p>
+      <button class="btn btn-primary" onclick="testCadastro()">✅ Testar Validações</button>
+      <div id="res-cadastro" class="result-box"></div>
+    </div>
+
+    <!-- Test: Upload Fotos -->
+    <div class="card">
+      <h2>📸 Upload de Fotos</h2>
+      <p>Simula seleção e conversão de imagens para base64.</p>
+      <input type="file" id="upload-test" accept="image/*" style="display:none" onchange="handleUploadTest(event)">
+      <button class="btn btn-secondary" onclick="document.getElementById('upload-test').click()">
+        📂 Selecionar Foto
+      </button>
+      <div id="res-upload" class="result-box"></div>
+    </div>
+
+    <!-- Test: Mock Webhook -->
+    <div class="card">
+      <h2>🔗 Mock Webhook N8N</h2>
+      <p>Simula chamada ao webhook n8n com dados fictícios e retorna resultado.</p>
+      <button class="btn btn-warning" onclick="testMockWebhook(this)">
+        <span class="spinner" id="spin-webhook"></span>
+        🚀 Simular Webhook
+      </button>
+      <div id="res-webhook" class="result-box"></div>
+    </div>
+
+    <!-- Test: Painel dados mock -->
+    <div class="card">
+      <h2>📊 Painel Mock</h2>
+      <p>Carrega dados fictícios do painel (clientes, trocas).</p>
+      <button class="btn btn-primary" onclick="testPainelMock()">📈 Carregar Mock</button>
+      <div id="res-painel" class="result-box"></div>
+    </div>
+
+    <!-- Test: Trocar plano -->
+    <div class="card">
+      <h2>👑 Trocar Plano</h2>
+      <p>Simula upgrade de Starter → Premium e verifica limites.</p>
+      <button class="btn btn-success" onclick="testTrocarPlano()">⬆️ Starter → Premium</button>
+      <div id="res-plano" class="result-box"></div>
+    </div>
+
+    <!-- Test: Responsivo -->
+    <div class="card">
+      <h2>📐 Responsividade</h2>
+      <p>Abre o app em diferentes resoluções para teste de layout.</p>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <button class="btn btn-gray" onclick="openSize(375,812)">📱 iPhone (375×812)</button>
+        <button class="btn btn-gray" onclick="openSize(390,844)">📱 iPhone 14 (390×844)</button>
+        <button class="btn btn-gray" onclick="openSize(412,915)">📱 Android (412×915)</button>
+        <button class="btn btn-gray" onclick="openSize(768,1024)">💻 Tablet (768×1024)</button>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Section: Tamanho Ideal -->
+  <div class="section-header">📏 Calculadora de Tamanho Ideal</div>
+  <div class="card">
+    <p>Calcule o tamanho ideal baseado em altura e peso. Clique em um perfil ou insira os valores.</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+      <div>
+        <label style="font-size:12px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; display:block; margin-bottom:4px;">Altura (cm)</label>
+        <input type="number" id="calc-altura" class="test-input" placeholder="175" min="140" max="220" />
+      </div>
+      <div>
+        <label style="font-size:12px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; display:block; margin-bottom:4px;">Peso (kg)</label>
+        <input type="number" id="calc-peso" class="test-input" placeholder="80" min="30" max="200" />
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="calcTamanho()">🎯 Calcular Tamanho</button>
+    <div id="res-tamanho" class="result-box info"></div>
+
+    <div class="size-grid" style="margin-top:16px;">
+      <div class="size-cell" onclick="setCalc(155,55)"><strong>PP/P</strong>155cm 55kg</div>
+      <div class="size-cell" onclick="setCalc(165,65)"><strong>P/M</strong>165cm 65kg</div>
+      <div class="size-cell" onclick="setCalc(175,80)"><strong>M/G</strong>175cm 80kg</div>
+      <div class="size-cell" onclick="setCalc(185,90)"><strong>G/GG</strong>185cm 90kg</div>
+      <div class="size-cell" onclick="setCalc(195,100)"><strong>GG/EG</strong>195cm 100kg</div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Section: Webhook -->
+  <div class="section-header">🔗 Teste de Webhook Real</div>
+  <div class="card">
+    <p>Cole a URL do seu webhook n8n e teste a conectividade.</p>
+    <input type="url" id="webhook-url" class="test-input" placeholder="https://seu-n8n.com/webhook/provou-levou" />
+    <button class="btn btn-warning" onclick="testWebhookReal(this)">
+      <span class="spinner" id="spin-real"></span>
+      ⚡ Testar Conexão
+    </button>
+    <div id="res-webhook-real" class="result-box"></div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Section: Supabase -->
+  <div class="section-header">🔌 Status das Integrações</div>
+  <div class="card">
+    <h2>☁️ Verificar Conexões</h2>
+    <p>Verifica as variáveis de ambiente e conectividade das APIs.</p>
+    <button class="btn btn-primary" onclick="checkIntegrations()">🔍 Verificar Tudo</button>
+    <div id="res-integrations" class="result-box"></div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Section: Validador de Plano -->
+  <div class="section-header">🛡️ Validador de Limites de Plano</div>
+  <div class="card">
+    <p>Simula o comportamento de controle de fotos por plano.</p>
+    <div style="display: flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+      <button class="btn btn-gray" onclick="testLimitePlano('starter', 0)">🟢 Starter (0/50 fotos)</button>
+      <button class="btn btn-gray" onclick="testLimitePlano('starter', 50)">🔴 Starter LIMITE (50/50)</button>
+      <button class="btn btn-gray" onclick="testLimitePlano('premium', 800)">🟡 Premium (800/1200)</button>
+      <button class="btn btn-gray" onclick="testLimitePlano('premium', 1200)">🔴 Premium LIMITE (1200/1200)</button>
+    </div>
+    <div id="res-limite" class="result-box"></div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Console Log -->
+  <div class="section-header">🖥️ Console de Testes</div>
+  <div class="card">
+    <h2>📋 Log de Eventos</h2>
+    <p>Registro de todas as operações desta sessão de testes.</p>
+    <div style="display:flex; gap:8px; margin-bottom:12px;">
+      <button class="btn btn-gray" style="flex:1" onclick="clearConsole()">🗑️ Limpar</button>
+      <button class="btn btn-primary" style="flex:1" onclick="runAllTests()">▶️ Rodar Todos</button>
+    </div>
+    <div id="console-output" class="result-box show" style="color: #A0AEC0; max-height: 300px;">
+📋 Console iniciado — aguardando testes...
+    </div>
+  </div>
+
+</div>
+
+<div id="toast-tester"></div>
+
+<script>
+// ─── Utilities ──────────────────────────────────────────
+const log = (msg, type = 'info') => {
+  const output = document.getElementById('console-output')
+  const time = new Date().toLocaleTimeString('pt-BR')
+  const icons = { info: 'ℹ️', success: '✅', error: '❌', warn: '⚠️' }
+  output.textContent += `\n[${time}] ${icons[type] || 'ℹ️'} ${msg}`
+  output.scrollTop = output.scrollHeight
+}
+
+const showResult = (id, content, type = 'success') => {
+  const el = document.getElementById(id)
+  el.className = `result-box show ${type}`
+  el.textContent = content
+}
+
+const toast = (msg, type = 'info') => {
+  const container = document.getElementById('toast-tester')
+  const el = document.createElement('div')
+  el.className = 'toast-msg'
+  el.style.background = type === 'success' ? '#48BB78' : type === 'error' ? '#E53E3E' : type === 'warn' ? '#ED8936' : '#2D3748'
+  el.textContent = msg
+  container.appendChild(el)
+  setTimeout(() => el.remove(), 3500)
+}
+
+const setSpinner = (id, show) => {
+  const el = document.getElementById(id)
+  if (el) el.style.display = show ? 'inline-block' : 'none'
+}
+
+// ─── Calculadora de Tamanho ──────────────────────────────
+const calcularTamanho = (altura, peso) => {
+  let tamanho = 'M/G'
+  if (altura < 160) tamanho = 'PP/P'
+  else if (altura <= 170) tamanho = 'P/M'
+  else if (altura <= 180) tamanho = 'M/G'
+  else if (altura <= 190) tamanho = 'G/GG'
+  else tamanho = 'GG/EG'
+
+  const imc = peso / Math.pow(altura / 100, 2)
+  const sizes = ['PP/P', 'P/M', 'M/G', 'G/GG', 'GG/EG']
+  if (imc > 30) {
+    const idx = sizes.indexOf(tamanho)
+    if (idx < sizes.length - 1) tamanho = sizes[idx + 1]
+  }
+  return { tamanho, imc: imc.toFixed(1) }
+}
+
+// ─── Test Functions ──────────────────────────────────────
+
+function testCadastro() {
+  log('Iniciando teste de validações de cadastro...')
+  const cases = [
+    { nome: '', whatsapp: '', altura: '', peso: '', expected: 'ERRO: todos campos obrigatórios' },
+    { nome: 'Jo', whatsapp: '11999999999', altura: '175', peso: '80', expected: 'ERRO: nome muito curto' },
+    { nome: 'João Silva', whatsapp: '123', altura: '175', peso: '80', expected: 'ERRO: WhatsApp inválido' },
+    { nome: 'João Silva', whatsapp: '11999999999', altura: '130', peso: '80', expected: 'ERRO: altura fora do range' },
+    { nome: 'João Silva', whatsapp: '11999999999', altura: '175', peso: '250', expected: 'ERRO: peso fora do range' },
+    { nome: 'João Silva', whatsapp: '11999999999', altura: '175', peso: '80', expected: 'OK: todos campos válidos ✅' },
+  ]
+
+  let results = 'RESULTADOS DE VALIDAÇÃO:\n\n'
+  cases.forEach((c, i) => {
+    const erros = []
+    if (!c.nome.trim() || c.nome.trim().length < 3) erros.push('nome inválido')
+    const nums = c.whatsapp.replace(/\D/g, '')
+    if (!nums || nums.length < 10) erros.push('WhatsApp inválido')
+    const alt = parseInt(c.altura)
+    if (!c.altura || alt < 140 || alt > 220) erros.push('altura inválida')
+    const pes = parseInt(c.peso)
+    if (!c.peso || pes < 30 || pes > 200) erros.push('peso inválido')
+
+    const status = erros.length > 0 ? `❌ ${erros.join(', ')}` : '✅ válido'
+    results += `Caso ${i+1}: ${status}\n  → Esperado: ${c.expected}\n\n`
+  })
+
+  showResult('res-cadastro', results, 'success')
+  log('Teste de cadastro concluído', 'success')
+  toast('Validações testadas ✅', 'success')
+}
+
+async function handleUploadTest(event) {
+  const file = event.target.files[0]
+  if (!file) return
+  log(`Upload selecionado: ${file.name} (${(file.size/1024).toFixed(1)}KB)`)
+
+  const reader = new FileReader()
+  reader.onload = () => {
+    const base64 = reader.result
+    const result = `ARQUIVO: ${file.name}
+TIPO: ${file.type}
+TAMANHO: ${(file.size/1024).toFixed(1)} KB
+BASE64 (primeiros 80 chars):
+${base64.substring(0, 80)}...
+
+✅ Upload processado com sucesso!`
+    showResult('res-upload', result, 'success')
+    log(`Foto convertida para base64: ${(base64.length/1024).toFixed(1)}KB`, 'success')
+    toast('Foto processada ✅', 'success')
+  }
+  reader.readAsDataURL(file)
+}
+
+async function testMockWebhook(btn) {
+  btn.disabled = true
+  setSpinner('spin-webhook', true)
+  log('Iniciando mock webhook n8n...')
+
+  const dados = {
+    nome: 'João Silva (Teste)',
+    whatsapp: '(11) 99999-9999',
+    altura: 175,
+    peso: 80,
+    lado: 'frente',
+    foto_produto: 'data:image/jpeg;base64,MOCK_BASE64',
+    foto_cliente: 'data:image/jpeg;base64,MOCK_BASE64',
+  }
+
+  log('Payload: ' + JSON.stringify({ nome: dados.nome, altura: dados.altura, peso: dados.peso }))
+
+  // Simulate 2.5s processing
+  await new Promise(r => setTimeout(r, 2500))
+
+  const { tamanho, imc } = calcularTamanho(dados.altura, dados.peso)
+  const mockResponse = {
+    resultado_url: `https://picsum.photos/400/600?random=${Date.now()}`,
+    tamanho,
+    imc: parseFloat(imc),
+    mock: true,
+    processado_em: new Date().toISOString(),
+  }
+
+  const result = `✅ MOCK WEBHOOK RESPONSE:\n\n${JSON.stringify(mockResponse, null, 2)}\n\n💡 Em produção, substituir pela URL real do n8n`
+  showResult('res-webhook', result, 'success')
+  log('Mock webhook retornou com sucesso', 'success')
+  toast(`Webhook OK — Tamanho: ${tamanho}`, 'success')
+
+  btn.disabled = false
+  setSpinner('spin-webhook', false)
+}
+
+function testPainelMock() {
+  log('Carregando dados mock do painel...')
+
+  const mockData = {
+    total_trocas: 47,
+    clientes: [
+      { nome: 'Ana Rodrigues', whatsapp: '(11) 98765-4321', ultima_troca: '2026-03-18', provas: 5 },
+      { nome: 'Carlos Lima', whatsapp: '(11) 91234-5678', ultima_troca: '2026-03-17', provas: 3 },
+      { nome: 'Maria Santos', whatsapp: '(11) 99876-5432', ultima_troca: '2026-03-15', provas: 8 },
+    ]
+  }
+
+  const result = `📊 DADOS MOCK DO PAINEL:\n
+Total de Provas: ${mockData.total_trocas}
+Total de Clientes: ${mockData.clientes.length}\n
+CLIENTES:\n${mockData.clientes.map(c =>
+  `  • ${c.nome} — ${c.whatsapp}\n    Última prova: ${c.ultima_troca} | ${c.provas} provas`
+).join('\n\n')}\n
+✅ Dados carregados com sucesso`
+
+  showResult('res-painel', result, 'success')
+  log(`Painel mock: ${mockData.total_trocas} trocas, ${mockData.clientes.length} clientes`, 'success')
+  toast('Dados do painel carregados ✅', 'success')
+}
+
+function testTrocarPlano() {
+  log('Simulando upgrade Starter → Premium...')
+
+  const antes = { plano: 'starter', limite: 50, fotos_usadas: 37, preco: 97 }
+  const depois = { plano: 'premium', limite: 1200, fotos_usadas: 37, preco: 797 }
+
+  const result = `👑 SIMULAÇÃO TROCA DE PLANO:\n
+ANTES:
+  Plano: ${antes.plano.toUpperCase()}
+  Limite: ${antes.limite} fotos/mês
+  Fotos usadas: ${antes.fotos_usadas}/${antes.limite}
+  Preço: R$ ${antes.preco}/mês\n
+DEPOIS:
+  Plano: ${depois.plano.toUpperCase()}
+  Limite: ${depois.limite} fotos/mês
+  Fotos usadas: ${depois.fotos_usadas}/${depois.limite}
+  Preço: R$ ${depois.preco}/mês\n
+✅ Upgrade realizado com sucesso!
+🆓 ${depois.limite - depois.fotos_usadas} fotos disponíveis (+${depois.limite - antes.limite} novas)`
+
+  showResult('res-plano', result, 'success')
+  log('Plano atualizado: Starter → Premium', 'success')
+  toast('Plano atualizado para Premium! 👑', 'success')
+}
+
+function openSize(w, h) {
+  const url = window.location.origin || 'http://localhost:3000'
+  const win = window.open(url, '_blank', `width=${w},height=${h},resizable=yes`)
+  if (!win) toast('Pop-up bloqueado. Permita pop-ups.', 'warn')
+  else log(`Aberto em resolução ${w}×${h}`, 'info')
+}
+
+function calcTamanho() {
+  const altura = parseInt(document.getElementById('calc-altura').value)
+  const peso = parseInt(document.getElementById('calc-peso').value)
+
+  if (!altura || !peso || altura < 140 || altura > 220 || peso < 30 || peso > 200) {
+    showResult('res-tamanho', '❌ Valores inválidos. Altura: 140-220cm, Peso: 30-200kg', 'error')
+    return
+  }
+
+  const { tamanho, imc } = calcularTamanho(altura, peso)
+  const imcClass = imc < 18.5 ? 'Abaixo do peso' : imc < 25 ? 'Peso normal' : imc < 30 ? 'Sobrepeso' : 'Obesidade'
+
+  const result = `🎯 RESULTADO DA CALCULADORA:\n
+Altura: ${altura} cm
+Peso: ${peso} kg
+IMC: ${imc} — ${imcClass}\n
+━━━━━━━━━━━━━━━
+TAMANHO IDEAL: ${tamanho}
+━━━━━━━━━━━━━━━\n
+Tabela de referência:
+  < 160cm → PP/P
+  160-170cm → P/M
+  171-180cm → M/G  ← (você)
+  181-190cm → G/GG
+  > 190cm → GG/EG`
+
+  showResult('res-tamanho', result, 'info')
+  log(`Calculado: ${altura}cm/${peso}kg → ${tamanho} (IMC: ${imc})`, 'success')
+}
+
+function setCalc(altura, peso) {
+  document.getElementById('calc-altura').value = altura
+  document.getElementById('calc-peso').value = peso
+  calcTamanho()
+}
+
+async function testWebhookReal(btn) {
+  const url = document.getElementById('webhook-url').value.trim()
+  if (!url || !url.startsWith('http')) {
+    showResult('res-webhook-real', '❌ URL inválida. Insira uma URL válida começando com http(s)://', 'error')
+    return
+  }
+
+  btn.disabled = true
+  setSpinner('spin-real', true)
+  log(`Testando webhook: ${url}`)
+
+  try {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 10000)
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        test: true,
+        nome: 'Teste Provou Levou',
+        whatsapp: '(11) 99999-9999',
+        altura: 175,
+        peso: 80,
+        foto_produto: 'TEST',
+        foto_cliente: 'TEST',
+      }),
+      signal: controller.signal,
+    })
+    clearTimeout(timeout)
+
+    const text = await response.text()
+    let data
+    try { data = JSON.parse(text) } catch { data = text }
+
+    const result = `STATUS: ${response.status} ${response.statusText}\n\nRESPOSTA:\n${JSON.stringify(data, null, 2)}\n\n✅ Webhook acessível!`
+    showResult('res-webhook-real', result, 'success')
+    log(`Webhook respondeu: ${response.status}`, 'success')
+    toast('Webhook OK ✅', 'success')
+  } catch (err) {
+    const msg = err.name === 'AbortError' ? 'Timeout (10s)' : err.message
+    showResult('res-webhook-real', `❌ ERRO: ${msg}\n\nVerifique se o webhook está ativo e acessível.`, 'error')
+    log(`Webhook falhou: ${msg}`, 'error')
+    toast('Webhook inacessível ❌', 'error')
+  } finally {
+    btn.disabled = false
+    setSpinner('spin-real', false)
+  }
+}
+
+function checkIntegrations() {
+  log('Verificando integrações...')
+
+  const checks = []
+
+  // Check if we're in the app (Vite env)
+  const isVite = typeof __vite_is_modern_browser !== 'undefined' || window.location.port === '3000'
+
+  checks.push({ name: 'App React (Vite)', ok: true, detail: 'Página carregada ✅' })
+  checks.push({ name: 'Local Storage', ok: typeof localStorage !== 'undefined', detail: 'Disponível' })
+  checks.push({ name: 'FileReader API', ok: typeof FileReader !== 'undefined', detail: 'Upload de fotos OK' })
+  checks.push({ name: 'Fetch API', ok: typeof fetch !== 'undefined', detail: 'Chamadas HTTP OK' })
+  checks.push({ name: 'Navigator.share', ok: !!navigator.share, detail: navigator.share ? 'Compartilhamento nativo ✅' : 'Não suportado (fallback clipboard)' })
+  checks.push({ name: 'Clipboard API', ok: !!navigator.clipboard, detail: navigator.clipboard ? 'OK' : 'Não disponível' })
+
+  const result = `🔍 STATUS DAS INTEGRAÇÕES:\n\n${checks.map(c =>
+    `${c.ok ? '✅' : '⚠️'} ${c.name}\n   ${c.detail}`
+  ).join('\n\n')}\n\n💡 Configure .env com VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY`
+
+  showResult('res-integrations', result, 'info')
+  const ok = checks.filter(c => c.ok).length
+  log(`Integrações: ${ok}/${checks.length} OK`, ok === checks.length ? 'success' : 'warn')
+  toast(`${ok}/${checks.length} integrações OK`, ok === checks.length ? 'success' : 'warn')
+}
+
+function testLimitePlano(plano, fotosUsadas) {
+  const limites = { starter: 50, inicial: 100, medio: 500, premium: 1200 }
+  const limite = limites[plano]
+  const pct = Math.round((fotosUsadas / limite) * 100)
+  const pode = fotosUsadas < limite
+  const restante = limite - fotosUsadas
+
+  const result = `🛡️ VALIDAÇÃO DE LIMITE:\n
+Plano: ${plano.toUpperCase()}
+Fotos usadas: ${fotosUsadas}/${limite} (${pct}%)
+Fotos restantes: ${restante}
+Status: ${pode ? '✅ PODE usar provador' : '❌ LIMITE ATINGIDO'}\n
+${!pode ? '→ Redirecionar para /plano para upgrade' : `→ ${restante} fotos disponíveis`}`
+
+  showResult('res-limite', result, pode ? 'success' : 'error')
+  log(`Limite ${plano}: ${fotosUsadas}/${limite} — ${pode ? 'OK' : 'BLOQUEADO'}`, pode ? 'success' : 'error')
+  toast(pode ? `${restante} fotos restantes ✅` : 'Limite atingido! Faça upgrade', pode ? 'success' : 'error')
+}
+
+function clearConsole() {
+  document.getElementById('console-output').textContent = '📋 Console limpo...'
+}
+
+async function runAllTests() {
+  log('=== INICIANDO TODOS OS TESTES ===', 'info')
+  testCadastro()
+  await new Promise(r => setTimeout(r, 500))
+  testPainelMock()
+  await new Promise(r => setTimeout(r, 500))
+  testTrocarPlano()
+  await new Promise(r => setTimeout(r, 500))
+  checkIntegrations()
+  await new Promise(r => setTimeout(r, 500))
+  testLimitePlano('starter', 0)
+  await new Promise(r => setTimeout(r, 500))
+  setCalc(175, 80)
+  log('=== TODOS OS TESTES CONCLUÍDOS ===', 'success')
+  toast('Todos os testes executados! ✅', 'success')
+}
+
+// Auto-log on load
+window.addEventListener('load', () => {
+  log('Área de testes carregada', 'success')
+  log(`URL: ${window.location.href}`, 'info')
+  log(`Resolução: ${window.innerWidth}×${window.innerHeight}`, 'info')
+  log(`User Agent: ${navigator.userAgent.substring(0, 60)}...`, 'info')
+})
+</script>
+
+</body>
+</html>
