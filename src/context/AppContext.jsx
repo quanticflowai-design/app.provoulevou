@@ -15,6 +15,15 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [menuOpen, setMenuOpen] = useState(false)
   const [toast, setToast] = useState({ msg: '', type: '', show: false })
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true')
+
+  // Apply dark mode to body
+  useEffect(() => {
+    document.body.classList.toggle('dark', darkMode)
+    localStorage.setItem('darkMode', darkMode)
+  }, [darkMode])
+
+  const toggleDarkMode = useCallback(() => setDarkMode(d => !d), [])
 
   // Toast helper
   const showToast = useCallback((msg, type = 'default') => {
@@ -103,6 +112,8 @@ export const AppProvider = ({ children }) => {
       fotosRestantes,
       planoAtual,
       PLANOS,
+      darkMode,
+      toggleDarkMode,
     }}>
       {children}
     </AppContext.Provider>

@@ -16,7 +16,7 @@ export default function Resultado() {
   if (!resultado && !tamanho) {
     return (
       <div className="app-container">
-        <Header showBack title="Resultado" />
+        <Header />
         <div className="page-content">
           <div className="empty-state">
             <div className="empty-state-icon">❌</div>
@@ -54,7 +54,7 @@ export default function Resultado() {
 
   return (
     <div className="app-container">
-      <Header showBack title="Resultado" />
+      <Header />
 
       <div className="page-content fade-in">
         {/* Success header */}

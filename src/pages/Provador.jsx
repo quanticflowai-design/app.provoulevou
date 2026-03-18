@@ -124,7 +124,12 @@ export default function Provador() {
 
   return (
     <div className="app-container">
-      <Header title="Provador Virtual ✨" showBack />
+      <Header />
+
+      {/* Page title */}
+      <div style={{ padding: '14px 20px 4px', fontSize: 16, fontWeight: 700, color: 'var(--text-dark)' }}>
+        Provador Virtual ✨
+      </div>
 
       {/* Step indicator */}
       <div className="step-indicator">

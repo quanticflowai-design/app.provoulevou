@@ -1,9 +1,9 @@
 import React from 'react'
 
 const QuanticLogo = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="10" stroke="#A0AEC0" strokeWidth="2" />
-    <path d="M8 12h8M12 8v8" stroke="#A0AEC0" strokeWidth="2" strokeLinecap="round" />
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <rect x="8.5" y="0" width="7" height="24" rx="3.5" fill="#A0AEC0" />
+    <rect x="0" y="8.5" width="24" height="7" rx="3.5" fill="#A0AEC0" />
   </svg>
 )
 

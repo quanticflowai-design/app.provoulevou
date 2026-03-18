@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { supabase } from '../services/supabase'
 import Footer from '../components/Footer'
+import { ProvouLevouLogo } from '../components/Logo'
 
 const EyeIcon = ({ open }) => open ? (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -77,11 +78,9 @@ export default function Login() {
   return (
     <div className="auth-screen fade-in">
       {/* Logo */}
-      <div style={{ textAlign: 'center', marginBottom: 32 }}>
-        <div className="auth-logo">
-          Provou<span>Levou</span>
-        </div>
-        <div className="auth-subtitle">Provador Virtual de Roupas</div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 32 }}>
+        <ProvouLevouLogo size="lg" id="login" />
+        <div className="auth-subtitle" style={{ marginTop: 10 }}>Provador Virtual de Roupas</div>
       </div>
 
       <div className="auth-form">

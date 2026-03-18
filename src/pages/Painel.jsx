@@ -51,7 +51,7 @@ export default function Painel() {
 
   return (
     <div className="app-container">
-      <Header title="Painel" showBack />
+      <Header />
 
       <div className="page-content fade-in">
         {/* Stats */}

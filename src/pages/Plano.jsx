@@ -60,7 +60,7 @@ export default function Plano() {
 
   return (
     <div className="app-container">
-      <Header title="Meu Plano" showBack />
+      <Header />
 
       <div className="page-content fade-in">
         {/* Plano atual */}

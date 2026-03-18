@@ -56,7 +56,12 @@ export default function Dados() {
 
   return (
     <div className="app-container">
-      <Header title="Provador Virtual ✨" showBack />
+      <Header />
+
+      {/* Page title */}
+      <div style={{ padding: '14px 20px 4px', fontSize: 16, fontWeight: 700, color: 'var(--text-dark)', textAlign: 'center' }}>
+        Provador Virtual ✨
+      </div>
 
       {/* Step indicator */}
       <div className="step-indicator">
@@ -68,9 +73,9 @@ export default function Dados() {
       <div className="page-content">
         <div className="section">
           {/* Section title */}
-          <div className="section-title">
+          <div className="section-title" style={{ justifyContent: 'center' }}>
             <UserIcon />
-            Seus Dados
+            Dados do seu Cliente
           </div>
 
           {/* Nome */}
@@ -79,7 +84,7 @@ export default function Dados() {
             <input
               className={`input ${errors.nome ? 'error' : ''}`}
               type="text"
-              placeholder="Seu nome completo"
+              placeholder="Nome completo do cliente"
               value={form.nome}
               onChange={e => update('nome', e.target.value)}
               autoComplete="name"
@@ -92,7 +97,7 @@ export default function Dados() {
             <label className="input-label">
               <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.07h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.37a16 16 0 006.72 6.72l1.66-1.37a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                WhatsApp
+                Whatsapp do seu cliente
               </span>
             </label>
             <input
@@ -109,7 +114,7 @@ export default function Dados() {
           {/* Altura + Peso */}
           <div className="input-row">
             <div className="input-group" style={{ marginBottom: 0 }}>
-              <label className="input-label">Altura (cm)</label>
+              <label className="input-label">Altura do cliente (cm)</label>
               <input
                 className={`input ${errors.altura ? 'error' : ''}`}
                 type="number"
@@ -122,7 +127,7 @@ export default function Dados() {
               {errors.altura && <span className="input-error">{errors.altura}</span>}
             </div>
             <div className="input-group" style={{ marginBottom: 0 }}>
-              <label className="input-label">Peso (kg)</label>
+              <label className="input-label">Peso do cliente (kg)</label>
               <input
                 className={`input ${errors.peso ? 'error' : ''}`}
                 type="number"

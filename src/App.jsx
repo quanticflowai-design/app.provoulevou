@@ -11,6 +11,7 @@ import Provador from './pages/Provador'
 import Resultado from './pages/Resultado'
 import Painel from './pages/Painel'
 import Plano from './pages/Plano'
+import Configuracoes from './pages/Configuracoes'
 
 // Protected route wrapper
 const Protected = ({ children }) => {
@@ -55,6 +56,9 @@ function AppRoutes() {
         } />
         <Route path="/plano" element={
           <Protected><Plano /></Protected>
+        } />
+        <Route path="/configuracoes" element={
+          <Protected><Configuracoes /></Protected>
         } />
         <Route path="*" element={<Navigate to="/provador" replace />} />
       </Routes>
