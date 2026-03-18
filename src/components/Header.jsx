@@ -19,7 +19,7 @@ export const Header = () => {
         <MenuIcon />
       </button>
 
-      <ProvouLevouLogo size="sm" id="header" />
+      <ProvouLevouLogo size="md" id="header" />
 
       <div style={{ width: 38 }} />
     </header>
