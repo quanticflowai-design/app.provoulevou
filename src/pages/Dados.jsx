@@ -70,8 +70,8 @@ export default function Dados() {
         <div className="step-dot" />
       </div>
 
-      <div className="page-content">
-        <div className="section">
+      <div className="page-content" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flex: 1 }}>
+        <div className="section" style={{ maxWidth: 520, width: '100%', margin: '0 auto' }}>
           {/* Section title */}
           <div className="section-title" style={{ justifyContent: 'center' }}>
             <UserIcon />
@@ -143,7 +143,7 @@ export default function Dados() {
         </div>
 
         {/* CTA */}
-        <div className="section" style={{ paddingTop: 8 }}>
+        <div style={{ paddingTop: 8, maxWidth: 520, width: '100%', margin: '0 auto', padding: '8px 20px 16px' }}>
           <button className="btn btn-primary" onClick={handleContinuar}>
             Continuar →
           </button>

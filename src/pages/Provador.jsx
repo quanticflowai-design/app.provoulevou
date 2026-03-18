@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import Upload from '../components/Upload'
 import Footer from '../components/Footer'
 import { useApp } from '../context/AppContext'
-import { fileToBase64, enviarParaWebhook, mockWebhook } from '../services/n8n'
+import { fileToBase64, enviarParaWebhook, mockWebhook, DEFAULT_WEBHOOK } from '../services/n8n'
 import { supabase, getLimitePlano } from '../services/supabase'
 
 const WARNING_COSTAS = 'Se escolheu costas, envie sua foto de costas. Se frente, envie de frente.'
@@ -26,7 +26,7 @@ export default function Provador() {
   const [fotoCliente, setFotoCliente] = useState(null)
   const [fotoClientePreview, setFotoClientePreview] = useState(null)
   const [lado, setLado] = useState('frente')
-  const [webhookUrl, setWebhookUrl] = useState('https://seu-n8n.com/webhook/provou-levou')
+  const webhookUrl = DEFAULT_WEBHOOK
   const [loading, setLoading] = useState(false)
 
   if (!dados) return null
@@ -57,24 +57,16 @@ export default function Provador() {
         fileToBase64(fotoCliente),
       ])
 
-      let resultado
-      const isDemo = webhookUrl.includes('seu-n8n.com') || !webhookUrl.startsWith('http')
-
-      if (isDemo) {
-        showToast('Modo demo: usando mock do webhook', 'warning')
-        resultado = await mockWebhook({ nome: dados.nome, altura: dados.altura, peso: dados.peso })
-      } else {
-        resultado = await enviarParaWebhook({
-          webhookUrl,
-          nome: dados.nome,
-          whatsapp: dados.whatsapp,
-          altura: parseInt(dados.altura),
-          peso: parseInt(dados.peso),
-          fotoProduto: base64Produto,
-          fotoCliente: base64Cliente,
-          ladoSelecionado: lado,
-        })
-      }
+      const resultado = await enviarParaWebhook({
+        webhookUrl,
+        nome: dados.nome,
+        whatsapp: dados.whatsapp,
+        altura: parseInt(dados.altura),
+        peso: parseInt(dados.peso),
+        fotoProduto: base64Produto,
+        fotoCliente: base64Cliente,
+        ladoSelecionado: lado,
+      })
 
       // Salvar no Supabase se logado
       if (profile?.id && profile.id !== 'mock-user-id') {
@@ -217,20 +209,6 @@ export default function Provador() {
             height={180}
           />
 
-          {/* Webhook */}
-          <div className="webhook-container" style={{ marginTop: 20 }}>
-            <div className="webhook-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-              Webhook n8n
-            </div>
-            <input
-              className="webhook-input"
-              type="url"
-              value={webhookUrl}
-              onChange={e => setWebhookUrl(e.target.value)}
-              placeholder="https://seu-n8n.com/webhook/..."
-            />
-          </div>
         </div>
 
         {/* CTA */}

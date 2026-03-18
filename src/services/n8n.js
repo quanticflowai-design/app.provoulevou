@@ -1,4 +1,4 @@
-const DEFAULT_WEBHOOK = 'https://seu-n8n.com/webhook/provou-levou'
+export const DEFAULT_WEBHOOK = 'https://n8n.segredosdodrop.com/webhook/materialize-generico'
 
 /**
  * Calcula tamanho ideal baseado em altura e peso
@@ -73,11 +73,65 @@ export const enviarParaWebhook = async ({
     throw new Error(`Webhook retornou ${response.status}: ${text}`)
   }
 
-  const data = await response.json()
-  console.log('[N8N] Resposta:', data)
+  // Tenta ler como JSON primeiro, senão como base64/binary
+  const contentType = response.headers.get('content-type') || ''
+  let data
+  let resultadoUrl = null
+
+  if (contentType.includes('image/')) {
+    // Resposta é uma imagem binária diretamente
+    const blob = await response.blob()
+    resultadoUrl = URL.createObjectURL(blob)
+    data = {}
+  } else if (contentType.includes('application/json')) {
+    data = await response.json()
+    console.log('[N8N] Resposta JSON:', data)
+
+    // Suporta vários formatos de resposta do n8n
+    if (data.resultado_url) {
+      resultadoUrl = data.resultado_url
+    } else if (data.imageUrl) {
+      resultadoUrl = data.imageUrl
+    } else if (data.url) {
+      resultadoUrl = data.url
+    } else if (data.image) {
+      // Base64 image retornada pelo n8n
+      const prefix = data.image.startsWith('data:') ? '' : 'data:image/png;base64,'
+      resultadoUrl = prefix + data.image
+    } else if (data.data) {
+      // Formato alternativo com campo "data" contendo base64
+      const imgData = typeof data.data === 'string' ? data.data : JSON.stringify(data.data)
+      if (imgData.startsWith('data:') || imgData.startsWith('/9j/') || imgData.startsWith('iVBOR')) {
+        const prefix = imgData.startsWith('data:') ? '' : 'data:image/png;base64,'
+        resultadoUrl = prefix + imgData
+      }
+    }
+  } else {
+    // Tenta ler como texto (pode ser base64 puro)
+    const text = await response.text()
+    if (text.startsWith('data:image')) {
+      resultadoUrl = text
+    } else if (text.startsWith('/9j/') || text.startsWith('iVBOR')) {
+      resultadoUrl = 'data:image/png;base64,' + text
+    } else {
+      // Tenta parsear como JSON mesmo sem content-type correto
+      try {
+        data = JSON.parse(text)
+        resultadoUrl = data.resultado_url || data.imageUrl || data.url || data.image || null
+        if (resultadoUrl && !resultadoUrl.startsWith('http') && !resultadoUrl.startsWith('data:')) {
+          resultadoUrl = 'data:image/png;base64,' + resultadoUrl
+        }
+      } catch {
+        console.warn('[N8N] Resposta não reconhecida:', text.substring(0, 100))
+      }
+    }
+    data = data || {}
+  }
+
+  console.log('[N8N] Resultado URL presente:', !!resultadoUrl)
 
   return {
-    resultado_url: data.resultado_url || data.imageUrl || data.url || null,
+    resultado_url: resultadoUrl,
     tamanho: data.tamanho || calcularTamanho(altura, peso),
     raw: data,
   }
