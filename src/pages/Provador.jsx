@@ -146,18 +146,8 @@ export default function Provador() {
             </div>
           )}
 
-          {/* Foto do produto */}
-          <Upload
-            label="📦 Foto do Produto"
-            sublabel="Enviar foto do produto"
-            preview={fotoProdutoPreview}
-            onChange={handleFotoProduto}
-            onRemove={() => { setFotoProduto(null); setFotoProdutoPreview(null) }}
-            height={180}
-          />
-
           {/* Frente / Costas */}
-          <div style={{ marginTop: 16, marginBottom: 16 }}>
+          <div style={{ marginBottom: 16 }}>
             <div className="section-title" style={{ marginBottom: 10 }}>Frente ou Costas</div>
             <div className="toggle-group">
               <button
@@ -181,33 +171,48 @@ export default function Provador() {
             <span>{WARNING_COSTAS}</span>
           </div>
 
-          {/* Foto do cliente */}
-          <div className="section-title" style={{ marginBottom: 10 }}>📸 Sua Foto</div>
+          {/* Uploads - side by side on desktop */}
+          <div className="provador-uploads">
+            <div className="upload-col">
+              <Upload
+                label="📦 Foto do Produto"
+                sublabel="Enviar foto do produto"
+                preview={fotoProdutoPreview}
+                onChange={handleFotoProduto}
+                onRemove={() => { setFotoProduto(null); setFotoProdutoPreview(null) }}
+                height={200}
+              />
+            </div>
 
-          {/* Photo options */}
-          <div className="photo-options" style={{ marginBottom: 12 }}>
-            {['Com Roupa', 'Braços Soltos', 'Boa Luz'].map((opt) => (
-              <div key={opt} style={{
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-                padding: '8px 10px', borderRadius: 10, background: 'var(--gray-light)',
-                fontSize: 11, color: 'var(--gray-dark)', fontWeight: 500, flex: 1,
-                textAlign: 'center',
-              }}>
-                <span style={{ fontSize: 18 }}>
-                  {opt === 'Com Roupa' ? '👕' : opt === 'Braços Soltos' ? '🙌' : '☀️'}
-                </span>
-                {opt}
+            <div className="upload-col">
+              <div className="section-title" style={{ marginBottom: 10 }}>📸 Foto do Cliente</div>
+
+              {/* Photo options */}
+              <div className="photo-options" style={{ marginBottom: 12 }}>
+                {['Com Roupa', 'Braços Soltos', 'Boa Luz'].map((opt) => (
+                  <div key={opt} style={{
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                    padding: '8px 10px', borderRadius: 10, background: 'var(--gray-light)',
+                    fontSize: 11, color: 'var(--gray-dark)', fontWeight: 500, flex: 1,
+                    textAlign: 'center',
+                  }}>
+                    <span style={{ fontSize: 18 }}>
+                      {opt === 'Com Roupa' ? '👕' : opt === 'Braços Soltos' ? '🙌' : '☀️'}
+                    </span>
+                    {opt}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          <Upload
-            sublabel={`Enviar sua foto (de ${lado})`}
-            preview={fotoClientePreview}
-            onChange={handleFotoCliente}
-            onRemove={() => { setFotoCliente(null); setFotoClientePreview(null) }}
-            height={180}
-          />
+              <Upload
+                sublabel={`Enviar sua foto (de ${lado})`}
+                preview={fotoClientePreview}
+                onChange={handleFotoCliente}
+                onRemove={() => { setFotoCliente(null); setFotoClientePreview(null) }}
+                height={200}
+              />
+            </div>
+          </div>
 
         </div>
 

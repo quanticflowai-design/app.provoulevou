@@ -354,6 +354,7 @@ body.dark {
   flex-direction: column;
   box-shadow: 4px 0 24px rgba(0,0,0,0.1);
   border-right: 1px solid var(--border);
+  overflow-y: auto;
 }
 
 .menu-drawer.open {
@@ -940,25 +941,28 @@ body.dark {
 
   .menu-drawer.has-user {
     transform: translateX(0) !important;
-    width: 240px;
-    box-shadow: 1px 0 0 var(--gray-light);
+    width: 260px;
+    box-shadow: 1px 0 0 var(--border);
+    border-right: 1px solid var(--border);
   }
 
   .menu-close { display: none; }
 
   .app-container {
-    margin-left: 240px;
+    margin-left: 260px;
   }
 
   .header-hamburger { display: none; }
 
   .header {
-    padding: 12px 32px;
+    padding: 14px 40px;
+    min-height: 64px;
   }
 
   .page-content {
-    max-width: 760px;
-    padding: 24px 32px 40px;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 40px 48px;
   }
 
   .section {
@@ -969,6 +973,7 @@ body.dark {
     grid-template-columns: repeat(2, 220px);
   }
 
+  /* Painel dashboard - wider layout */
   .painel-stats-grid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -982,7 +987,85 @@ body.dark {
   }
 
   .page-content.painel-wide {
-    max-width: 1200px;
+    max-width: 1100px;
+  }
+
+  /* Provador uploads - side by side on desktop */
+  .provador-uploads {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .provador-uploads .upload-col {
+    min-width: 0;
+  }
+
+  /* Result page - constrain image width */
+  .result-image-container {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Buttons on desktop - auto width */
+  .btn {
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Step indicator desktop */
+  .step-indicator {
+    padding: 12px 20px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 20px;
+  }
+
+  /* Input row wider gap */
+  .input-row {
+    gap: 16px;
+  }
+
+  /* Upload area taller on desktop */
+  .upload-area {
+    min-height: 200px;
+  }
+
+  /* Cards hover effect smoother */
+  .painel-stat-card {
+    padding: 26px;
+  }
+
+  .painel-stat-value {
+    font-size: 36px;
+  }
+
+  /* Table container */
+  .painel-table-container {
+    padding: 28px;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {
+  .page-content {
+    max-width: 800px;
+  }
+
+  .page-content.painel-wide {
+    max-width: 1280px;
+  }
+
+  .painel-stats-grid {
+    gap: 20px;
+  }
+
+  .painel-stat-card {
+    padding: 30px;
   }
 }
 
