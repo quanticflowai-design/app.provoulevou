@@ -928,6 +928,37 @@ body.dark {
 ::-webkit-scrollbar-thumb { background: var(--gray-light); border-radius: 2px; }
 
 /* Desktop */
-@media (min-width: 431px) {
-  .menu-drawer { max-width: 280px; }
+@media (min-width: 768px) {
+  .menu-overlay { display: none !important; }
+
+  .menu-drawer.has-user {
+    transform: translateX(0) !important;
+    width: 240px;
+    box-shadow: 1px 0 0 var(--gray-light);
+  }
+
+  .menu-close { display: none; }
+
+  .app-container {
+    margin-left: 240px;
+  }
+
+  .header-hamburger { display: none; }
+
+  .header {
+    padding: 12px 32px;
+  }
+
+  .page-content {
+    max-width: 760px;
+    padding: 24px 32px 40px;
+  }
+
+  .section {
+    padding: 16px 0;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 220px);
+  }
 }

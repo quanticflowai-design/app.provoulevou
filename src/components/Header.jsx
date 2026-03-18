@@ -15,7 +15,7 @@ export const Header = () => {
 
   return (
     <header className="header">
-      <button className="header-btn" onClick={() => setMenuOpen(true)} aria-label="Menu">
+      <button className="header-btn header-hamburger" onClick={() => setMenuOpen(true)} aria-label="Menu">
         <MenuIcon />
       </button>
 

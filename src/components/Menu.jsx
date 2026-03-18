@@ -45,7 +45,7 @@ const ITEMS = [
 ]
 
 export const Menu = () => {
-  const { menuOpen, setMenuOpen } = useApp()
+  const { menuOpen, setMenuOpen, user } = useApp()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -59,7 +59,7 @@ export const Menu = () => {
   return (
     <>
       <div className={`menu-overlay ${menuOpen ? 'open' : ''}`} onClick={close} />
-      <nav className={`menu-drawer ${menuOpen ? 'open' : ''}`} role="navigation">
+      <nav className={`menu-drawer ${menuOpen ? 'open' : ''} ${user ? 'has-user' : ''}`} role="navigation">
         <div className="menu-header">
           <ProvouLevouLogo size="sm" id="menu" />
           <button className="menu-close" onClick={close} aria-label="Fechar menu">✕</button>
