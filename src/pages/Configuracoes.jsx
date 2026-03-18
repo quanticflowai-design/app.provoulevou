@@ -182,7 +182,7 @@ export default function Configuracoes() {
 
       <div className="page-content page-narrow">
         {/* Page title */}
-        <div className="page-title" style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-dark)', padding: '0 0 20px' }}>
+        <div className="page-title" style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-dark)', paddingBottom: 20 }}>
           Configurações
         </div>
 

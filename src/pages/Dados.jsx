@@ -60,7 +60,7 @@ export default function Dados() {
 
       <div className="page-content page-narrow">
         {/* Page title */}
-        <div className="page-title" style={{ padding: '0 20px 4px', fontSize: 18, fontWeight: 700, color: 'var(--text-dark)', textAlign: 'center' }}>
+        <div className="page-title" style={{ paddingBottom: 4, fontSize: 18, fontWeight: 700, color: 'var(--text-dark)', textAlign: 'center' }}>
           Provador Virtual
         </div>
 
@@ -114,7 +114,7 @@ export default function Dados() {
           {/* Altura + Peso */}
           <div className="input-row">
             <div className="input-group" style={{ marginBottom: 0 }}>
-              <label className="input-label">Altura do cliente (cm)</label>
+              <label className="input-label">Altura (cm)</label>
               <input
                 className={`input ${errors.altura ? 'error' : ''}`}
                 type="number"
@@ -127,7 +127,7 @@ export default function Dados() {
               {errors.altura && <span className="input-error">{errors.altura}</span>}
             </div>
             <div className="input-group" style={{ marginBottom: 0 }}>
-              <label className="input-label">Peso do cliente (kg)</label>
+              <label className="input-label">Peso (kg)</label>
               <input
                 className={`input ${errors.peso ? 'error' : ''}`}
                 type="number"

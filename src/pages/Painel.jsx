@@ -91,48 +91,54 @@ export default function Painel() {
           </h1>
         </div>
 
-        {/* Stats cards - 4 cards */}
-        <div className="section" style={{ paddingTop: 0 }}>
-          <div className="painel-stats-grid">
-            {/* Total Provas */}
-            <div className="painel-stat-card">
-              <div className="painel-stat-icon" style={{ background: 'rgba(107,70,193,0.15)', color: '#6B46C1' }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </div>
+        {/* Stats cards - 4 cards horizontal */}
+        <div className="painel-stats-grid">
+          {/* Total Provas */}
+          <div className="painel-stat-card">
+            <div className="painel-stat-icon" style={{ background: 'rgba(107,70,193,0.15)', color: '#6B46C1' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div className="painel-stat-info">
               <div className="painel-stat-label">TOTAL DE PROVAS VIRTUAIS</div>
               <div className="painel-stat-value">
                 {loading ? <span className="pulse">-</span> : totalProvas}
               </div>
               <div className="painel-stat-sub">{clientesUnicos} clientes únicos</div>
             </div>
+          </div>
 
-            {/* Compras */}
-            <div className="painel-stat-card">
-              <div className="painel-stat-icon" style={{ background: 'rgba(72,187,120,0.15)', color: '#48BB78' }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              </div>
+          {/* Compras */}
+          <div className="painel-stat-card">
+            <div className="painel-stat-icon" style={{ background: 'rgba(72,187,120,0.15)', color: '#48BB78' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            </div>
+            <div className="painel-stat-info">
               <div className="painel-stat-label">COMPRAS VIA PROVADOR</div>
               <div className="painel-stat-value">
                 {loading ? <span className="pulse">-</span> : totalCompras}
               </div>
             </div>
+          </div>
 
-            {/* Faturamento */}
-            <div className="painel-stat-card">
-              <div className="painel-stat-icon" style={{ background: 'rgba(72,187,120,0.15)', color: '#48BB78' }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-              </div>
+          {/* Faturamento */}
+          <div className="painel-stat-card">
+            <div className="painel-stat-icon" style={{ background: 'rgba(72,187,120,0.15)', color: '#48BB78' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><path d="M9.5 11h5a1.5 1.5 0 010 3H9"/></svg>
+            </div>
+            <div className="painel-stat-info">
               <div className="painel-stat-label">FATURAMENTO (VIA PROVADOR)</div>
-              <div className="painel-stat-value" style={{ fontSize: 26 }}>
+              <div className="painel-stat-value">
                 {loading ? <span className="pulse">-</span> : formatCurrency(faturamento)}
               </div>
             </div>
+          </div>
 
-            {/* Taxa de Conversão */}
-            <div className="painel-stat-card">
-              <div className="painel-stat-icon" style={{ background: 'rgba(107,70,193,0.15)', color: '#6B46C1' }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              </div>
+          {/* Taxa de Conversão */}
+          <div className="painel-stat-card">
+            <div className="painel-stat-icon" style={{ background: 'rgba(107,70,193,0.15)', color: '#6B46C1' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div className="painel-stat-info">
               <div className="painel-stat-label">TAXA DE CONVERSÃO</div>
               <div className="painel-stat-value" style={{ color: '#48BB78' }}>
                 {loading ? <span className="pulse">-</span> : `${taxaConversao}%`}
@@ -143,8 +149,7 @@ export default function Painel() {
         </div>
 
         {/* Tabela de clientes */}
-        <div className="section" style={{ paddingTop: 8 }}>
-          <div className="painel-table-container">
+        <div className="painel-table-container">
             {/* Table header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-dark)', display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -255,7 +260,6 @@ export default function Painel() {
                 </div>
               </>
             )}
-          </div>
         </div>
       </div>
 

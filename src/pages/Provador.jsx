@@ -118,7 +118,7 @@ export default function Provador() {
 
       <div className="page-content">
         {/* Page title */}
-        <div className="page-title" style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-dark)', textAlign: 'center', padding: '0 0 4px' }}>
+        <div className="page-title" style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-dark)', textAlign: 'center', paddingBottom: 4 }}>
           Provador Virtual
         </div>
 
