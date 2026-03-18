@@ -85,9 +85,8 @@ export default function Painel() {
 
       <div className="page-content painel-wide fade-in">
         {/* Page title */}
-        <div className="section" style={{ paddingBottom: 8 }}>
-          <h1 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-dark)', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 24 }}>✨</span>
+        <div style={{ paddingBottom: 8 }}>
+          <h1 className="page-title" style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-dark)' }}>
             Estatísticas do Provador
           </h1>
         </div>

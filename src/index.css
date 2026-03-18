@@ -438,6 +438,13 @@ body.dark {
   flex-shrink: 0;
 }
 
+/* Page title */
+.page-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
 /* Page sections */
 .section {
   padding: 16px 20px;
@@ -581,6 +588,13 @@ body.dark {
   color: var(--primary);
 }
 
+/* Provador uploads - single col on mobile */
+.provador-uploads {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 /* Photo option buttons */
 .photo-options {
   display: flex;
@@ -608,6 +622,23 @@ body.dark {
   border-color: var(--primary);
   background: rgba(107,70,193,0.08);
   color: var(--primary);
+}
+
+/* Config section wrap - mobile base */
+.config-section-wrap {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Plan cards grid - single col on mobile */
+.plan-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.plan-cards-grid .plan-card {
+  margin-bottom: 0;
 }
 
 /* Plan cards */
@@ -748,6 +779,23 @@ body.dark {
   display: flex;
   align-items: flex-start;
   gap: 8px;
+}
+
+/* Desktop card - no styling on mobile */
+.desktop-card {
+  padding: 0 20px;
+}
+
+/* Resultado grid - vertical on mobile */
+.resultado-grid {
+  padding: 0 20px;
+}
+
+.resultado-col-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0;
 }
 
 /* Result screen */
@@ -935,137 +983,204 @@ body.dark {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--gray-light); border-radius: 2px; }
 
-/* Desktop */
+/* ============================================
+   DESKTOP LAYOUT (768px+)
+   ============================================ */
 @media (min-width: 768px) {
-  .menu-overlay { display: none !important; }
 
+  /* --- Sidebar --- */
+  .menu-overlay { display: none !important; }
   .menu-drawer.has-user {
     transform: translateX(0) !important;
     width: 260px;
-    box-shadow: 1px 0 0 var(--border);
+    box-shadow: none;
     border-right: 1px solid var(--border);
   }
-
   .menu-close { display: none; }
-
-  .app-container {
-    margin-left: 260px;
+  .menu-items { padding: 16px 0; }
+  .menu-item {
+    padding: 12px 20px;
+    margin: 2px 10px;
+    border-radius: 10px;
   }
-
+  .app-container { margin-left: 260px; }
   .header-hamburger { display: none; }
 
+  /* --- Header --- */
   .header {
-    padding: 14px 40px;
-    min-height: 64px;
+    padding: 16px 40px;
+    min-height: 66px;
   }
 
+  /* --- Page Content (default: medium width) --- */
   .page-content {
-    max-width: 720px;
+    max-width: 760px;
     margin: 0 auto;
     padding: 32px 40px 48px;
+  }
+
+  /* Narrow pages: Dados, Plano, Configurações */
+  .page-content.page-narrow {
+    max-width: 580px;
+  }
+
+  /* Wide pages: Painel */
+  .page-content.painel-wide {
+    max-width: 1100px;
   }
 
   .section {
     padding: 16px 0;
   }
 
-  .stats-grid {
-    grid-template-columns: repeat(2, 220px);
+  /* --- Desktop Card Wrapper --- */
+  .desktop-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 36px;
+    box-shadow: var(--card-shadow);
   }
 
-  /* Painel dashboard - wider layout */
-  .painel-stats-grid {
-    grid-template-columns: repeat(4, 1fr);
+  /* --- Page Title --- */
+  .page-title {
+    font-size: 26px;
+    padding: 8px 0 0;
   }
 
-  .painel-table-mobile {
-    display: none;
-  }
-
-  .painel-table-desktop {
-    display: block;
-  }
-
-  .page-content.painel-wide {
-    max-width: 1100px;
-  }
-
-  /* Provador uploads - side by side on desktop */
-  .provador-uploads {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: start;
-  }
-
-  .provador-uploads .upload-col {
-    min-width: 0;
-  }
-
-  /* Result page - constrain image width */
-  .result-image-container {
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  /* Buttons on desktop - auto width */
-  .btn {
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Step indicator desktop */
+  /* --- Step Indicator --- */
   .step-indicator {
-    padding: 12px 20px;
+    padding: 12px 0 8px;
   }
 
-  /* Footer */
-  .footer {
-    padding: 20px;
+  /* --- Inputs --- */
+  .input {
+    height: 50px;
   }
-
-  /* Input row wider gap */
   .input-row {
     gap: 16px;
   }
 
-  /* Upload area taller on desktop */
+  /* --- Uploads --- */
   .upload-area {
-    min-height: 200px;
+    min-height: 220px;
   }
 
-  /* Cards hover effect smoother */
-  .painel-stat-card {
-    padding: 26px;
+  /* --- Provador: side-by-side uploads --- */
+  .provador-uploads {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .provador-uploads .upload-col {
+    min-width: 0;
   }
 
-  .painel-stat-value {
-    font-size: 36px;
+  /* --- Resultado: horizontal layout --- */
+  .resultado-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    align-items: start;
+  }
+  .resultado-grid .resultado-col-image {
+    position: sticky;
+    top: 100px;
+  }
+  .resultado-grid .result-image-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+  .resultado-grid .resultado-col-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .resultado-grid .resultado-col-info .section {
+    padding: 0;
   }
 
-  /* Table container */
-  .painel-table-container {
-    padding: 28px;
+  /* --- Painel --- */
+  .painel-stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .painel-table-mobile { display: none; }
+  .painel-table-desktop { display: block; }
+  .painel-stat-card { padding: 26px; }
+  .painel-stat-value { font-size: 36px; }
+  .painel-table-container { padding: 28px; }
+  .stats-grid {
+    grid-template-columns: repeat(2, 220px);
+  }
+
+  /* --- Plan cards: 2-column grid --- */
+  .plan-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .plan-cards-grid .plan-card {
+    margin-bottom: 0;
+  }
+
+  /* --- Config sections: card style --- */
+  .config-section-wrap {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+  }
+  .config-section-wrap .config-row {
+    border-bottom-color: var(--border);
+  }
+  .config-section-wrap .config-row:last-child {
+    border-bottom: none;
+  }
+
+  /* --- Login: card wrapper --- */
+  .auth-form {
+    max-width: 440px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--card-shadow);
+  }
+
+  /* --- Footer --- */
+  .footer {
+    padding: 24px;
   }
 }
 
-/* Large desktop */
+/* ============================================
+   LARGE DESKTOP (1200px+)
+   ============================================ */
 @media (min-width: 1200px) {
   .page-content {
-    max-width: 800px;
+    max-width: 840px;
   }
-
+  .page-content.page-narrow {
+    max-width: 620px;
+  }
   .page-content.painel-wide {
     max-width: 1280px;
   }
-
   .painel-stats-grid {
     gap: 20px;
   }
-
   .painel-stat-card {
     padding: 30px;
+  }
+  .desktop-card {
+    padding: 44px;
+  }
+  .resultado-grid {
+    gap: 48px;
   }
 }
 
@@ -1491,4 +1606,24 @@ body.dark .btn-google {
 
 body.dark .btn-google:hover {
   background: #2D3A4F;
+}
+
+body.dark .desktop-card {
+  background: #131A2B;
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.15);
+}
+
+body.dark .config-section-wrap {
+  background: #131A2B;
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+@media (min-width: 768px) {
+  body.dark .auth-form {
+    background: #131A2B;
+    border-color: rgba(255,255,255,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.2);
+  }
 }

@@ -33,7 +33,6 @@ export default function Plano() {
       return
     }
     if (!profile?.id || profile.id === 'mock-user-id') {
-      // Mock update
       setProfile(p => ({ ...p, plano: selectedPlan }))
       showToast(`Plano atualizado para ${PLANOS[selectedPlan].nome}!`, 'success')
       return
@@ -62,37 +61,40 @@ export default function Plano() {
     <div className="app-container">
       <Header />
 
-      <div className="page-content fade-in">
-        {/* Plano atual */}
-        <div className="section">
-          <div className="card" style={{ background: 'linear-gradient(135deg, #2D3748, #4A5568)' }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#A0AEC0', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 8 }}>
-              Plano Atual
-            </div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', marginBottom: 4 }}>
-              {PLANOS[currentPlan]?.nome}
-            </div>
-            <div style={{ fontSize: 14, color: '#A0AEC0', marginBottom: 12 }}>
-              {fotosUsadas} / {limite} fotos utilizadas
-            </div>
-            <div className="progress-bar-container">
-              <div
-                className="progress-bar-fill"
-                style={{
-                  width: `${progressPct}%`,
-                  background: progressPct >= 90 ? 'linear-gradient(90deg, #E53E3E, #FC8181)' : undefined,
-                }}
-              />
-            </div>
+      <div className="page-content page-narrow fade-in">
+        {/* Page title */}
+        <div className="page-title" style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-dark)', padding: '0 0 16px' }}>
+          Meu Plano
+        </div>
+
+        {/* Current plan card */}
+        <div className="card" style={{ background: 'linear-gradient(135deg, #2D3748, #4A5568)', marginBottom: 24 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#A0AEC0', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 8 }}>
+            Plano Atual
+          </div>
+          <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', marginBottom: 4 }}>
+            {PLANOS[currentPlan]?.nome}
+          </div>
+          <div style={{ fontSize: 14, color: '#A0AEC0', marginBottom: 12 }}>
+            {fotosUsadas} / {limite} fotos utilizadas
+          </div>
+          <div className="progress-bar-container">
+            <div
+              className="progress-bar-fill"
+              style={{
+                width: `${progressPct}%`,
+                background: progressPct >= 90 ? 'linear-gradient(90deg, #E53E3E, #FC8181)' : undefined,
+              }}
+            />
           </div>
         </div>
 
-        {/* Planos disponíveis */}
-        <div className="section" style={{ paddingTop: 0 }}>
-          <div className="section-title">
-            👑 Planos Disponíveis
-          </div>
+        {/* Available plans */}
+        <div className="section-title" style={{ padding: 0, marginBottom: 14 }}>
+          Planos Disponíveis
+        </div>
 
+        <div className="plan-cards-grid">
           {PLANO_LIST.map(({ key }) => {
             const plano = PLANOS[key]
             const isCurrentPlan = key === currentPlan
@@ -141,7 +143,7 @@ export default function Plano() {
         </div>
 
         {/* CTA */}
-        <div className="section" style={{ paddingTop: 0 }}>
+        <div style={{ paddingTop: 20 }}>
           <button
             className="btn btn-secondary"
             onClick={handleAtualizar}
@@ -150,7 +152,7 @@ export default function Plano() {
             {loading
               ? <><span className="spinner" /> Atualizando...</>
               : selectedPlan === currentPlan
-                ? '✓ Plano Atual'
+                ? 'Plano Atual'
                 : `Atualizar para ${PLANOS[selectedPlan]?.nome}`
             }
           </button>

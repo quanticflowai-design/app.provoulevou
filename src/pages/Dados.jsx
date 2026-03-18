@@ -58,22 +58,22 @@ export default function Dados() {
     <div className="app-container">
       <Header />
 
-      {/* Page title */}
-      <div style={{ padding: '14px 20px 4px', fontSize: 16, fontWeight: 700, color: 'var(--text-dark)', textAlign: 'center' }}>
-        Provador Virtual ✨
-      </div>
+      <div className="page-content page-narrow">
+        {/* Page title */}
+        <div className="page-title" style={{ padding: '0 20px 4px', fontSize: 18, fontWeight: 700, color: 'var(--text-dark)', textAlign: 'center' }}>
+          Provador Virtual
+        </div>
 
-      {/* Step indicator */}
-      <div className="step-indicator">
-        <div className="step-dot active" />
-        <div className="step-dot" />
-        <div className="step-dot" />
-      </div>
+        {/* Step indicator */}
+        <div className="step-indicator">
+          <div className="step-dot active" />
+          <div className="step-dot" />
+          <div className="step-dot" />
+        </div>
 
-      <div className="page-content">
-        <div className="section">
-          {/* Section title */}
-          <div className="section-title">
+        {/* Form card */}
+        <div className="desktop-card">
+          <div className="section-title" style={{ justifyContent: 'center' }}>
             <UserIcon />
             Dados do seu Cliente
           </div>
@@ -140,13 +140,13 @@ export default function Dados() {
               {errors.peso && <span className="input-error">{errors.peso}</span>}
             </div>
           </div>
-        </div>
 
-        {/* CTA */}
-        <div className="section" style={{ paddingTop: 8 }}>
-          <button className="btn btn-primary" onClick={handleContinuar}>
-            Continuar →
-          </button>
+          {/* CTA */}
+          <div style={{ paddingTop: 20 }}>
+            <button className="btn btn-primary" onClick={handleContinuar}>
+              Continuar
+            </button>
+          </div>
         </div>
       </div>
 

@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import Upload from '../components/Upload'
 import Footer from '../components/Footer'
 import { useApp } from '../context/AppContext'
-import { fileToBase64, enviarParaWebhook, mockWebhook, DEFAULT_WEBHOOK } from '../services/n8n'
+import { fileToBase64, enviarParaWebhook, DEFAULT_WEBHOOK } from '../services/n8n'
 import { supabase, getLimitePlano } from '../services/supabase'
 
 const WARNING_COSTAS = 'Se escolheu costas, envie sua foto de costas. Se frente, envie de frente.'
@@ -16,7 +16,6 @@ export default function Provador() {
 
   const dados = location.state?.dados
 
-  // Se veio direto sem dados, redireciona para cadastro
   useEffect(() => {
     if (!dados) navigate('/provador')
   }, [dados, navigate])
@@ -68,7 +67,6 @@ export default function Provador() {
         ladoSelecionado: lado,
       })
 
-      // Salvar no Supabase se logado
       if (profile?.id && profile.id !== 'mock-user-id') {
         try {
           const { data: user } = await supabase.auth.getUser()
@@ -118,26 +116,26 @@ export default function Provador() {
     <div className="app-container">
       <Header />
 
-      {/* Page title */}
-      <div style={{ padding: '14px 20px 4px', fontSize: 16, fontWeight: 700, color: 'var(--text-dark)' }}>
-        Provador Virtual ✨
-      </div>
-
-      {/* Step indicator */}
-      <div className="step-indicator">
-        <div className="step-dot" />
-        <div className="step-dot active" />
-        <div className="step-dot" />
-      </div>
-
       <div className="page-content">
-        <div className="section">
+        {/* Page title */}
+        <div className="page-title" style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-dark)', textAlign: 'center', padding: '0 0 4px' }}>
+          Provador Virtual
+        </div>
+
+        {/* Step indicator */}
+        <div className="step-indicator">
+          <div className="step-dot" />
+          <div className="step-dot active" />
+          <div className="step-dot" />
+        </div>
+
+        <div className="desktop-card">
           {/* Limite info */}
           {profile && (
             <div style={{
               background: fotosRestantes <= 5 ? 'rgba(229,62,62,0.08)' : 'rgba(72,187,120,0.08)',
               border: `1px solid ${fotosRestantes <= 5 ? 'rgba(229,62,62,0.2)' : 'rgba(72,187,120,0.2)'}`,
-              borderRadius: 10, padding: '8px 14px', marginBottom: 16,
+              borderRadius: 10, padding: '8px 14px', marginBottom: 20,
               fontSize: 13, color: fotosRestantes <= 5 ? 'var(--danger)' : 'var(--success)',
               display: 'flex', alignItems: 'center', gap: 6,
             }}>
@@ -147,7 +145,7 @@ export default function Provador() {
           )}
 
           {/* Frente / Costas */}
-          <div style={{ marginBottom: 16 }}>
+          <div style={{ marginBottom: 20 }}>
             <div className="section-title" style={{ marginBottom: 10 }}>Frente ou Costas</div>
             <div className="toggle-group">
               <button
@@ -166,7 +164,7 @@ export default function Provador() {
           </div>
 
           {/* Warning */}
-          <div className="warning-box" style={{ marginBottom: 16 }}>
+          <div className="warning-box" style={{ marginBottom: 24 }}>
             <span>⚠️</span>
             <span>{WARNING_COSTAS}</span>
           </div>
@@ -174,22 +172,22 @@ export default function Provador() {
           {/* Uploads - side by side on desktop */}
           <div className="provador-uploads">
             <div className="upload-col">
+              <div className="section-title" style={{ marginBottom: 10 }}>Foto do Produto</div>
               <Upload
-                label="📦 Foto do Produto"
                 sublabel="Enviar foto do produto"
                 preview={fotoProdutoPreview}
                 onChange={handleFotoProduto}
                 onRemove={() => { setFotoProduto(null); setFotoProdutoPreview(null) }}
-                height={200}
+                height={220}
               />
             </div>
 
             <div className="upload-col">
-              <div className="section-title" style={{ marginBottom: 10 }}>📸 Foto do Cliente</div>
+              <div className="section-title" style={{ marginBottom: 10 }}>Foto do Cliente</div>
 
-              {/* Photo options */}
+              {/* Photo tips */}
               <div className="photo-options" style={{ marginBottom: 12 }}>
-                {['Com Roupa', 'Braços Soltos', 'Boa Luz'].map((opt) => (
+                {['Com Roupa', 'Bracos Soltos', 'Boa Luz'].map((opt) => (
                   <div key={opt} style={{
                     display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
                     padding: '8px 10px', borderRadius: 10, background: 'var(--gray-light)',
@@ -197,7 +195,7 @@ export default function Provador() {
                     textAlign: 'center',
                   }}>
                     <span style={{ fontSize: 18 }}>
-                      {opt === 'Com Roupa' ? '👕' : opt === 'Braços Soltos' ? '🙌' : '☀️'}
+                      {opt === 'Com Roupa' ? '👕' : opt === 'Bracos Soltos' ? '🙌' : '☀️'}
                     </span>
                     {opt}
                   </div>
@@ -209,25 +207,24 @@ export default function Provador() {
                 preview={fotoClientePreview}
                 onChange={handleFotoCliente}
                 onRemove={() => { setFotoCliente(null); setFotoClientePreview(null) }}
-                height={200}
+                height={220}
               />
             </div>
           </div>
 
-        </div>
-
-        {/* CTA */}
-        <div className="section" style={{ paddingTop: 8 }}>
-          <button
-            className="btn btn-primary"
-            onClick={handleEnviar}
-            disabled={loading || !fotoProduto || !fotoCliente}
-          >
-            {loading
-              ? <><span className="spinner" /> Processando...</>
-              : <>✨ Experimentar Agora</>
-            }
-          </button>
+          {/* CTA */}
+          <div style={{ paddingTop: 24 }}>
+            <button
+              className="btn btn-primary"
+              onClick={handleEnviar}
+              disabled={loading || !fotoProduto || !fotoCliente}
+            >
+              {loading
+                ? <><span className="spinner" /> Processando...</>
+                : 'Experimentar Agora'
+              }
+            </button>
+          </div>
         </div>
       </div>
 

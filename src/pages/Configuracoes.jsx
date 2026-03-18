@@ -40,7 +40,6 @@ const EyeIcon = ({ open }) => open ? (
   </svg>
 )
 
-// Toggle switch component
 const Toggle = ({ value, onChange }) => (
   <button
     onClick={() => onChange(!value)}
@@ -67,13 +66,12 @@ const Toggle = ({ value, onChange }) => (
   </button>
 )
 
-// Inline section card
 const Section = ({ title, children }) => (
-  <div style={{ marginBottom: 16 }}>
-    <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: '1px', padding: '0 20px', marginBottom: 8 }}>
+  <div style={{ marginBottom: 20 }}>
+    <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 10 }}>
       {title}
     </div>
-    <div style={{ background: 'var(--white)', borderTop: '1px solid var(--gray-light)', borderBottom: '1px solid var(--gray-light)' }}>
+    <div className="config-section-wrap" style={{ background: 'var(--white)', borderRadius: 14, overflow: 'hidden', border: '1px solid var(--gray-light)' }}>
       {children}
     </div>
   </div>
@@ -81,12 +79,14 @@ const Section = ({ title, children }) => (
 
 const Row = ({ label, value, onPress, toggle, extra }) => (
   <div
+    className="config-row"
     onClick={onPress}
     style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '14px 20px',
       borderBottom: '1px solid var(--gray-light)',
       cursor: onPress ? 'pointer' : 'default',
+      transition: 'background 0.15s',
     }}
   >
     <span style={{ fontSize: 15, color: 'var(--text-dark)' }}>{label}</span>
@@ -102,15 +102,12 @@ const Row = ({ label, value, onPress, toggle, extra }) => (
 export default function Configuracoes() {
   const { profile, setProfile, showToast, darkMode, toggleDarkMode } = useApp()
 
-  // Which panel is expanded
-  const [panel, setPanel] = useState(null) // null | 'dados' | 'senha'
+  const [panel, setPanel] = useState(null)
 
-  // Edit dados state
   const [nome, setNome] = useState(profile?.nome || '')
   const [whatsapp, setWhatsapp] = useState(profile?.whatsapp || '')
   const [savingDados, setSavingDados] = useState(false)
 
-  // Senha state
   const [senhaAtual, setSenhaAtual] = useState('')
   const [novaSenha, setNovaSenha] = useState('')
   const [confirmarSenha, setConfirmarSenha] = useState('')
@@ -183,52 +180,52 @@ export default function Configuracoes() {
     <div className="app-container">
       <Header />
 
-      <div className="page-content">
+      <div className="page-content page-narrow">
         {/* Page title */}
-        <div style={{ padding: '16px 20px 8px', fontSize: 22, fontWeight: 700, color: 'var(--text-dark)' }}>
+        <div className="page-title" style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-dark)', padding: '0 0 20px' }}>
           Configurações
         </div>
 
         {/* Profile card */}
-        <div style={{ padding: '0 20px 20px' }}>
+        <div style={{
+          background: 'var(--card-bg)',
+          borderRadius: 16,
+          padding: '20px',
+          boxShadow: 'var(--card-shadow)',
+          border: '1px solid var(--border)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
+          marginBottom: 24,
+        }}>
           <div style={{
-            background: 'var(--white)',
-            borderRadius: 16,
-            padding: '20px',
-            boxShadow: 'var(--card-shadow)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 16,
+            width: 60, height: 60, borderRadius: '50%',
+            background: 'linear-gradient(135deg, #7C3AED, #C026D3)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fff', fontSize: 22, fontWeight: 700, flexShrink: 0,
           }}>
-            <div style={{
-              width: 60, height: 60, borderRadius: '50%',
-              background: 'linear-gradient(135deg, #7C3AED, #C026D3)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#fff', fontSize: 22, fontWeight: 700, flexShrink: 0,
-            }}>
-              {getInitials()}
+            {getInitials()}
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-dark)', marginBottom: 2 }}>
+              {profile?.nome || 'Usuário'}
             </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--text-dark)', marginBottom: 2 }}>
-                {profile?.nome || 'Usuário'}
-              </div>
-              <div style={{ fontSize: 13, color: 'var(--gray-dark)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {profile?.email || ''}
-              </div>
-              {profile?.plano && (
-                <div style={{
-                  display: 'inline-block', marginTop: 6,
-                  background: 'rgba(107,70,193,0.12)', color: 'var(--primary)',
-                  borderRadius: 20, padding: '2px 10px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px',
-                }}>
-                  Plano {profile.plano}
-                </div>
-              )}
+            <div style={{ fontSize: 13, color: 'var(--gray-dark)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {profile?.email || ''}
             </div>
+            {profile?.plano && (
+              <div style={{
+                display: 'inline-block', marginTop: 6,
+                background: 'rgba(107,70,193,0.12)', color: 'var(--primary)',
+                borderRadius: 20, padding: '2px 10px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px',
+              }}>
+                Plano {profile.plano}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Editar Dados */}
+        {/* Minha Conta */}
         <Section title="Minha Conta">
           <Row label="Editar Dados" onPress={() => toggle('dados')} />
           {panel === 'dados' && (
@@ -273,7 +270,7 @@ export default function Configuracoes() {
           />
         </Section>
 
-        {/* Info */}
+        {/* Sobre */}
         <Section title="Sobre">
           <Row label="Versão" value="1.0.0" />
           <Row label="Provou Levou" value="provoulevou.com.br" />

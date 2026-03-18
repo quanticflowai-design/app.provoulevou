@@ -33,7 +33,6 @@ export default function Resultado() {
   const handleSalvar = async () => {
     setSaving(true)
     try {
-      // Share/download
       if (navigator.share && resultado) {
         await navigator.share({
           title: 'Meu Resultado - Provou Levou',
@@ -41,7 +40,6 @@ export default function Resultado() {
           url: resultado,
         })
       } else {
-        // Fallback: copy link
         await navigator.clipboard.writeText(resultado)
         showToast('Link copiado!', 'success')
       }
@@ -57,90 +55,101 @@ export default function Resultado() {
       <Header />
 
       <div className="page-content fade-in">
-        {/* Success header */}
-        <div className="section" style={{ textAlign: 'center', paddingBottom: 16 }}>
-          <div style={{
-            width: 64, height: 64, borderRadius: '50%',
-            background: 'rgba(72,187,120,0.1)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            margin: '0 auto 12px',
-            fontSize: 28,
-          }}>
-            ✅
-          </div>
-          <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-dark)' }}>
-            Resultado Gerado!
-          </h2>
-          <p style={{ fontSize: 14, color: 'var(--gray-dark)', marginTop: 4 }}>
-            Seu look virtual está pronto
-          </p>
+        {/* Step indicator */}
+        <div className="step-indicator">
+          <div className="step-dot" />
+          <div className="step-dot" />
+          <div className="step-dot active" />
         </div>
 
-        {/* Result image */}
-        {resultado && (
-          <div style={{ padding: '0 20px', marginBottom: 20 }}>
-            <div className="result-image-container" style={{ minHeight: imgLoaded ? 'auto' : 300 }}>
-              {!imgLoaded && (
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: 'var(--gray-light)',
-                }}>
-                  <span className="spinner spinner-dark" />
-                </div>
-              )}
-              <img
-                src={resultado}
-                alt="Resultado do provador virtual"
-                onLoad={() => setImgLoaded(true)}
-                onError={() => setImgLoaded(true)}
-                style={{ width: '100%', display: 'block', opacity: imgLoaded ? 1 : 0 }}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Size result */}
-        <div className="section" style={{ paddingTop: 0 }}>
-          <div className="result-size-badge">
-            <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 1, opacity: 0.9, marginBottom: 6 }}>
-              🎯 TAMANHO IDEAL
-            </div>
-            <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: 2 }}>
-              {tamanho || 'M/G'}
-            </div>
-            {dados && (
-              <div style={{ fontSize: 13, opacity: 0.85, marginTop: 6 }}>
-                Baseado em {dados.altura}cm / {dados.peso}kg
+        {/* Desktop: horizontal layout / Mobile: vertical */}
+        <div className="resultado-grid">
+          {/* Image column */}
+          <div className="resultado-col-image">
+            {resultado && (
+              <div className="result-image-container" style={{ minHeight: imgLoaded ? 'auto' : 300 }}>
+                {!imgLoaded && (
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'var(--gray-light)',
+                  }}>
+                    <span className="spinner spinner-dark" />
+                  </div>
+                )}
+                <img
+                  src={resultado}
+                  alt="Resultado do provador virtual"
+                  onLoad={() => setImgLoaded(true)}
+                  onError={() => setImgLoaded(true)}
+                  style={{ width: '100%', display: 'block', opacity: imgLoaded ? 1 : 0 }}
+                />
               </div>
             )}
           </div>
-        </div>
 
-        {/* Client info */}
-        {dados && (
-          <div className="section" style={{ paddingTop: 0 }}>
-            <div className="card" style={{ padding: '14px 18px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--gray-dark)', textTransform: 'uppercase', letterSpacing: '0.6px' }}>Cliente</span>
+          {/* Info column */}
+          <div className="resultado-col-info">
+            {/* Success header */}
+            <div style={{ textAlign: 'center' }}>
+              <div style={{
+                width: 56, height: 56, borderRadius: '50%',
+                background: 'rgba(72,187,120,0.1)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                margin: '0 auto 12px',
+                fontSize: 24,
+              }}>
+                ✅
               </div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-dark)' }}>{dados.nome}</div>
-              <div style={{ fontSize: 13, color: 'var(--gray-dark)', marginTop: 2 }}>{dados.whatsapp}</div>
+              <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-dark)' }}>
+                Resultado Gerado!
+              </h2>
+              <p style={{ fontSize: 14, color: 'var(--gray-dark)', marginTop: 4 }}>
+                Seu look virtual está pronto
+              </p>
+            </div>
+
+            {/* Size badge */}
+            <div className="section" style={{ padding: 0 }}>
+              <div className="result-size-badge">
+                <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 1, opacity: 0.9, marginBottom: 6 }}>
+                  TAMANHO IDEAL
+                </div>
+                <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: 2 }}>
+                  {tamanho || 'M/G'}
+                </div>
+                {dados && (
+                  <div style={{ fontSize: 13, opacity: 0.85, marginTop: 6 }}>
+                    Baseado em {dados.altura}cm / {dados.peso}kg
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Client info */}
+            {dados && (
+              <div className="card" style={{ padding: '14px 18px' }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-dark)', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: 8 }}>
+                  Cliente
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-dark)' }}>{dados.nome}</div>
+                <div style={{ fontSize: 13, color: 'var(--gray-dark)', marginTop: 2 }}>{dados.whatsapp}</div>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <button className="btn btn-primary" onClick={handleSalvar} disabled={saving}>
+                {saving ? <><span className="spinner" /> Salvando...</> : 'Salvar Resultado'}
+              </button>
+              <button
+                className="btn btn-outline"
+                onClick={() => navigate('/provador')}
+              >
+                Nova Tentativa
+              </button>
             </div>
           </div>
-        )}
-
-        {/* Actions */}
-        <div className="section" style={{ paddingTop: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <button className="btn btn-primary" onClick={handleSalvar} disabled={saving}>
-            {saving ? <><span className="spinner" /> Salvando...</> : '💾 Salvar Resultado'}
-          </button>
-          <button
-            className="btn btn-outline"
-            onClick={() => navigate('/provador')}
-          >
-            🔄 Nova Tentativa
-          </button>
         </div>
       </div>
 
