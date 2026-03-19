@@ -1,4 +1,4 @@
-export const DEFAULT_WEBHOOK = 'https://n8n.segredosdodrop.com/webhook/materialize-generico'
+export const DEFAULT_WEBHOOK = 'https://n8n.segredosdodrop.com/webhook/materialize-app'
 
 /**
  * Calcula tamanho ideal baseado em altura e peso
